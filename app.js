@@ -4,44 +4,60 @@ const consolidate = require('consolidate');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const routes = require('./routes/routes');
-
 const app = express();
 
+
+
+//Requiero la configuración de los eventos en socket-events
+const socketEvents = require('./socket-events');
+
+//Seteo la nueva forma de iniciar el esquema en mongodb con mongoose
+mongoose.set('useCreateIndex', true);
 
 app.use(bodyParser.urlencoded({
     extended: true,
 }));
 
+// Uso de body parser para recibir o restringir el tipo y el tamaño de información que voy a recibir
 app.use(bodyParser.json({
     limit: '5mb'
 }));
 
+
+
+//Configuración para handlebar
 app.set('views', 'views');
 app.use(express.static('./public'));
-
 app.set('view engine', 'html');
 app.engine('html', consolidate.handlebars);
 
-//Connect to Database
 
+
+//Connect to Database
 const db = 'mongodb://localhost:27017/uberForX';
-mongoose.connect(db).then(value => {
+mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true }).then(value => {
     console.log(value.model)
+    console.log("Database is connect");
 }).catch(error => {
     console.log(error);
 });
 
 
-//Requiero la ruta
+//Requiero las rutas
 app.get('/', (req, res) => {
     res.send('Hello World');
 });
 
-const server = http.server(app);
+app.use(require('./routes/routes'))
+
+
+//Inicializo el servidor
+const server = http.Server(app);
 
 const portNumber = 3000;
 
 
 server.listen(portNumber, (req, res) => {
-    console.log('Server on port 3000');
+    console.log(`Server listening at port ${portNumber}`);
+    socketEvents.initialize(server);
 });
