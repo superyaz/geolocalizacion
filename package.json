@@ -1,0 +1,37 @@
+{
+  "name": "geolocalizacion",
+  "version": "1.0.0",
+  "description": "App de geolocalización para encontrar personas dentro de la ciudad",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "consolidate": "^0.15.1",
+    "express": "^4.17.1",
+    "handlebars": "^4.5.3",
+    "mongoose": "^5.8.3",
+    "nodemon": "^2.0.2",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/superyaz/geolocalizacion.git"
+  },
+  "keywords": [
+    "geolocalización",
+    "personas",
+    "localización"
+  ],
+  "author": "@superyaz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/superyaz/geolocalizacion/issues"
+  },
+  "homepage": "https://github.com/superyaz/geolocalizacion#readme"
+}
