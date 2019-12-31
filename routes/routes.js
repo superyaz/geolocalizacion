@@ -33,6 +33,7 @@ router.get('/cops/info', async (req, res) => {
     res.json({
         copDetails: copDetails
     });
+    console.log(copDetails)
 });
 
 // fetch all requests

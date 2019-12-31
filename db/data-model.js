@@ -22,6 +22,8 @@ const copSchema = mongoose.Schema({
     }
 });
 
+// db.collection_uberForx.createIndex({ 'geometry.coordinates': '2dsphere' });
+
 copSchema.index({ "location": "2dsphere", userId: 1 });
 
 /**

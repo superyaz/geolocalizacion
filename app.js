@@ -13,6 +13,7 @@ const socketEvents = require('./socket-events');
 
 //Seteo la nueva forma de iniciar el esquema en mongodb con mongoose
 mongoose.set('useCreateIndex', true);
+mongoose.set('useFindAndModify', false);
 
 app.use(bodyParser.urlencoded({
     extended: true,
@@ -33,7 +34,7 @@ app.engine('html', consolidate.handlebars);
 
 
 
-//Connect to Database
+//Hago la conexión a la DB
 const db = 'mongodb+srv://yacamo04:yaz.456@geolocalization-bukka.mongodb.net/uberForx?retryWrites=true&w=majority';
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true }).then(value => {
     console.log("Database is connect");
@@ -47,8 +48,8 @@ mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true }).then(v
 app.get('/', (req, res) => {
     res.send('Hello World');
 });
-
 app.use(require('./routes/routes'))
+
 
 
 //Inicializo el servidor

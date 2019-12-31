@@ -1,56 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 
 <head>
-    <meta charset="utf-8" />
+    <meta charset='utf-8' />
     <title>Civilian {{ userId }} </title>
-    <link href="https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css" rel="stylesheet" />
+    <link href='https://api.mapbox.com/mapbox.js/v3.2.1/mapbox.css' rel='stylesheet' />
+
 </head>
 
-<body data-userId="{{ userId }}">
-    <h1> Hello, Civilian {{ userId }} </h1>
+<body data-userId='{{ userId }}'>
+    <div class="container" style="text-align: center;">
+        <h1> Hello, Civilian {{ userId }} </h1>
 
-    <h4 id="notification"></h4>
-    <button onclick="requestForHelp()">
-        Request for help
-    </button>
+        <h4 id='notification'>
 
-    <div id="map" style="width: 600px; height: 400px;">
-        <!-- Load a map here -->
+
+        </h4>
+        <button onclick='requestForHelp()'>
+            Solicitar ayuda
+        </button>
+
+        <div id='map' style='width: 600px; height: 400px;margin-left: 370px; margin-top: 10px;'>
+            <!-- Load a map here -->
+        </div>
+
     </div>
 
-    <script src="/socket.io/socket.io.js"></script>
+    <!-- Load socket.io client library -->
+    <script src='/socket.io/socket.io.js'></script>
 
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- Load Axios from a CDN -->
+    <script src='https://unpkg.com/axios/dist/axios.min.js'></script>
 
-    <script src="https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js"></script>
+    <!-- Load mapbox from CDN -->
+    <script src='https://api.mapbox.com/mapbox.js/v3.2.1/mapbox.js'></script>
 
-    <script type="text/javascript">
+    <script type='text/javascript'>
         const socket = io();
-        const userId = document.body.getAttribute("data-userId");
-        socket.emit("join", {
+
+        // Fetch userId from the data-atribute of the body tag
+        const userId = document.body.getAttribute('data-userId');
+
+        // Join a room, roomname is the userId itself!
+        socket.emit('join', {
             userId: userId
-        }); // Join a room, roomname is the userId itself!
+        });
+
         // Empty variables to store information. This will get filled later
         let requestDetails = {};
         let copDetails = {};
         let map, marker;
+
         requestDetails = {
             civilianId: userId,
             location: {
-                address: "Indiranagar, Bengaluru, Karnataka 560038, India",
+                address: 'Indiranagar, Bengaluru, Karnataka 560038, India',
                 latitude: 12.9718915,
                 longitude: 77.64115449999997
             }
         }
         function requestForHelp() { // When button is clicked, emit an event
-            socket.emit("request-for-help", requestDetails);
+            socket.emit('request-for-help', requestDetails);
         }
         // Listen for a 'request-accepted' event
-        socket.on("request-accepted", (eventData) => {
+        socket.on('request-accepted', (eventData) => {
             copDetails = eventData; // Save cop details
             // Display Cop address
-            document.getElementById("notification").innerHTML =
+            document.getElementById('notification').innerHTML =
                 `${copDetails.displayName} is near ${copDetails.location.address} and will be arriving at your location shortly.
                 You can reach them at their mobile ${copDetails.phone}`;
             // Show cop location on the map
@@ -59,23 +75,27 @@
                 copDetails.location.longitude
             ], {
                 icon: L.icon({
-                    iconUrl: "/images/cop.png",
+                    iconUrl: '/images/cop.png',
                     iconSize: [60, 28]
                 })
             }).addTo(map);
         });
-        L.mapbox.accessToken = "<MAPBOX_ACCESS_TOKEN>";
-        map = L.mapbox.map("map", "mapbox.streets"); // Load the map and give it a default style
+
+        L.mapbox.accessToken = 'pk.eyJ1IjoieWFjYW1vMDQiLCJhIjoiY2s0dTBlcG1rMDBqNzNubWVzZ2d3bHF1diJ9.BCDc1ZVIzuAOJoiQ6qGwhQ';
+
+        map = L.mapbox.map('map', 'mapbox.streets'); // Load the map and give it a default style
         map.setView([12.9718915, 77.64115449999997], 15); // Load the map and set it to a given lat-lng
         marker = L.marker([12.9718915, 77.64115449999997]).addTo(map); // Display a default marker
+
         // Use MapBox geo-coding API
-        map.addControl(L.mapbox.geocoderControl("mapbox.places", {
+        map.addControl(L.mapbox.geocoderControl('mapbox.places', {
             autocomplete: true,
-        }).on("select", (data) => { // This function runs when a place is selected
+        }).on('select', (data) => { // This function runs when a place is selected
             console.log(data); // data contains the geocding results
+
             // Extract address and coordinates from the results and save it
             requestDetails.location = {
-                address: data.feature["place_name"],
+                address: data.feature['place_name'],
                 latitude: data.feature.center[1],
                 longitude: data.feature.center[0]
             };
