@@ -34,10 +34,10 @@ app.engine('html', consolidate.handlebars);
 
 
 //Connect to Database
-const db = 'mongodb://localhost:27017/uberForX';
+const db = 'mongodb+srv://yacamo04:yaz.456@geolocalization-bukka.mongodb.net/uberForx?retryWrites=true&w=majority';
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true }).then(value => {
-    console.log(value.model)
     console.log("Database is connect");
+    console.log(value.model)
 }).catch(error => {
     console.log(error);
 });
