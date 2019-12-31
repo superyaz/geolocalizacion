@@ -59,8 +59,11 @@
                 copDetails = response.data.copDetails;
                 copDetails.location = {
                     address: copDetails.location.address,
+
+                    //Comerntar estas dos lineas de código para que se pueda visualizar los datos y  el mapa en la vista cop.html
                     longitude: copDetails.location.coordinates[0],
-                    latitude: copDetails.location.coordinates[1]
+                    latitude: copDetails.location.coordinates[1],
+
                 };
 
                 document.getElementById('copDetails').innerHTML =

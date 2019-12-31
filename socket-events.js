@@ -41,7 +41,8 @@ function initialize(server) {
             eventData.requestId = requestId;
 
             // 3. After fetching nearest cops, fire a 'request-for-help' event to each of them
-            for (let i = 0; i < nearestCops.length; i++) {
+            var near_length = nearestCops.length;
+            for (let i = 0; i < near_length; i++) {
                 io.sockets.in(nearestCops[i].userId).emit('request-for-help', eventData);
             }
 

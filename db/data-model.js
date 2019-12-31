@@ -39,8 +39,8 @@ const Cop = mongoose.model('Cop', copSchema);
 const requestSchema = mongoose.Schema({
     requestTime: { type: Date },
     location: {
-        coordinates: [Number],
-        adress: { type: String }
+        adress: { type: String },
+        coordinates: [Number]
     },
     civilianId: { type: String },
     copId: { type: String },

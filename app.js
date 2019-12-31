@@ -13,6 +13,8 @@ const socketEvents = require('./socket-events');
 
 //Seteo la nueva forma de iniciar el esquema en mongodb con mongoose
 mongoose.set('useCreateIndex', true);
+
+//Seteo esta variable para corregir los mensajes de alerta por metodos deprecados desde mongoose
 mongoose.set('useFindAndModify', false);
 
 app.use(bodyParser.urlencoded({
